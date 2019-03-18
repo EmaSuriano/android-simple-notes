@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="alignment_label">
+        <item>Start</item>
+        <item>Center</item>
+        <item>End</item>
+    </string-array>
+
+    <string-array name="alignment_values">
+        <item>start</item>
+        <item>center</item>
+        <item>end</item>
+    </string-array>
+</resources>

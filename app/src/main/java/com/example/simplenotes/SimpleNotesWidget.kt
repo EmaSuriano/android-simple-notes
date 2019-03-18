@@ -5,6 +5,9 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.preference.PreferenceManager
+import android.view.Gravity
+import android.view.View
 import android.widget.RemoteViews
 import android.widget.Toast
 
@@ -31,9 +34,23 @@ class SimpleNotesWidget : AppWidgetProvider() {
             val notes = NotesService.read(context);
             if (notes != null) {
                 views.setTextViewText(R.id.appwidget_text, notes)
+
+
             } else {
                 Toast.makeText(context, "Can't get notes \uD83D\uDE15", Toast.LENGTH_SHORT).show()
             }
+
+//            views.setViewVisibility(R.id.appwidget_text, View.INVISIBLE)
+//            views.setInt(R.id.appwidget_text, "setGravity", Gravity.CENTER_VERTICAL or Gravity.RIGHT);
+//            views.setViewVisibility(R.id.appwidget_text, View.VISIBLE)
+
+            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+            val alignmentX = prefs.getString("aligment_x", "center");
+            val alignmentY = prefs.getString("aligment_y", "center");
+//                views.setInt(R.id.appwidget_text, "setGravity", Gravity.CENTER);
+
+
+
 
 
             appWidgetManager.updateAppWidget(appWidgetId, views)

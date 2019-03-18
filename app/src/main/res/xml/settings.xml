@@ -1,0 +1,23 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Aligment">
+        <ListPreference
+                android:dialogTitle="Horizontal Alignment"
+                android:entries="@array/alignment_label"
+                android:entryValues="@array/alignment_values"
+                android:key="alignment_x"
+                android:title="Horizontal"
+                android:defaultValue="center"
+                android:summary="Change text alignment on X axis"
+        />
+
+        <ListPreference
+                android:dialogTitle="Vertical Alignment"
+                android:entries="@array/alignment_label"
+                android:entryValues="@array/alignment_values"
+                android:key="alignment_y"
+                android:title="Vertical"
+                android:defaultValue="center"
+                android:summary="Change text alignment on Y axis"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -7,6 +7,9 @@ import android.widget.EditText
 import android.widget.Toast
 import android.view.Menu
 import android.view.MenuItem
+import android.content.Intent
+import android.view.Gravity
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,13 +23,13 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         Toast.makeText(this, "Changes discarded", Toast.LENGTH_SHORT).show()
         this.finish()
-        return false
+        return super.onSupportNavigateUp()
     }
 
     // set functions for button in header
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.openSettings) {
-            Toast.makeText(this, "Open settings", Toast.LENGTH_SHORT).show();
+            startActivity(Intent(this, Settings::class.java));
 
             return true
         }
@@ -47,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         val notes = NotesService.read(this.applicationContext);
         if (notes != null) {
             val textNotes = this.findViewById<EditText>(R.id.notes);
+
             textNotes.setText(notes)
         } else {
             Toast.makeText(this.applicationContext, "Can't get notes \uD83D\uDE15", Toast.LENGTH_SHORT).show()
