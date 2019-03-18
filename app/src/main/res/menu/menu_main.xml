@@ -5,9 +5,9 @@
       tools:context=".MainActivity">
 
     <item
-            android:id="@+id/save_note"
+            android:id="@+id/openSettings"
             android:orderInCategory="300"
-            android:title="Save"
+            android:title="Settings"
             app:showAsAction="ifRoom"></item>
 
 </menu>

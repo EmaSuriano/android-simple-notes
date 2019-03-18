@@ -5,6 +5,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import java.io.BufferedReader
+import java.io.BufferedWriter
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 
@@ -14,9 +15,15 @@ class NotesService {
     companion object {
         fun save(context: Context, notes: String): Boolean {
             try {
-                val outputStreamWriter = OutputStreamWriter(context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE))
-                outputStreamWriter.write(notes)
-                outputStreamWriter.close()
+                val writer = BufferedWriter(OutputStreamWriter(context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE)))
+                val lines = notes.split("\n");
+                lines.forEach {
+                    if(lines.indexOf(it) > 0)
+                        writer.newLine();
+
+                    writer.write(it)
+                }
+                writer.close()
 
                 return true
             } catch (e: Exception) {
@@ -27,18 +34,16 @@ class NotesService {
 
         fun read(context: Context): String? {
             try {
+                val reader = BufferedReader(InputStreamReader(context.openFileInput(FILE_NAME)))
                 val stringBuilder = StringBuilder()
-
-                val fileInputStream = context.openFileInput(FILE_NAME)
-                val reader = BufferedReader(InputStreamReader(fileInputStream))
                 while (true) {
                     val line = reader.readLine();
                     if (line == null) break;
 
-                    stringBuilder.append(line)
+                    stringBuilder.append(line + "\n")
                 }
 
-                fileInputStream.close();
+                reader.close();
                 return stringBuilder.toString();
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -2,15 +2,11 @@ package com.example.simplenotes
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
+import android.support.design.widget.FloatingActionButton
 import android.widget.EditText
 import android.widget.Toast
-import android.appwidget.AppWidgetManager
-import android.content.ComponentName
-import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,26 +18,16 @@ class MainActivity : AppCompatActivity() {
 
     // close application on back
     override fun onSupportNavigateUp(): Boolean {
-        Toast.makeText(this, "Changes discarded", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Changes discarded", Toast.LENGTH_SHORT).show()
         this.finish()
-        return super.onSupportNavigateUp()
+        return false
     }
 
     // set functions for button in header
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.save_note) {
-            val textNotes = findViewById<EditText>(R.id.notes);
-            val notes = textNotes.text.toString();
-            val notesSaved = NotesService.save(this, notes);
+        if (item.itemId == R.id.openSettings) {
+            Toast.makeText(this, "Open settings", Toast.LENGTH_SHORT).show();
 
-            if (notesSaved) {
-                NotesService.broadcast(this);
-
-                Toast.makeText(this, "Notes saved 💪", Toast.LENGTH_LONG).show()
-                finish()
-            } else {
-                Toast.makeText(this, "Can't save notes \uD83D\uDE15", Toast.LENGTH_LONG).show()
-            }
             return true
         }
 
@@ -50,22 +36,37 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        this.setContentView(R.layout.activity_main)
 
         // load header bar
-        setSupportActionBar(findViewById(R.id.my_toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setDisplayShowHomeEnabled(true);
+        this.setSupportActionBar(this.findViewById(R.id.my_toolbar))
+        this.supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        this.supportActionBar?.setDisplayShowHomeEnabled(true);
 
         // load notes from storage
-        val notes = NotesService.read(applicationContext);
+        val notes = NotesService.read(this.applicationContext);
         if (notes != null) {
-            val textNotes = findViewById<EditText>(R.id.notes);
+            val textNotes = this.findViewById<EditText>(R.id.notes);
             textNotes.setText(notes)
         } else {
-            Toast.makeText(applicationContext, "Can't get notes \uD83D\uDE15", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.applicationContext, "Can't get notes \uD83D\uDE15", Toast.LENGTH_SHORT).show()
         }
 
+        val btnSave = findViewById<FloatingActionButton>(R.id.btnSaveNote);
+        btnSave.setOnClickListener {
+            val textNotes = findViewById<EditText>(R.id.notes);
+            val notes = textNotes.text.toString();
 
+            val notesSaved = NotesService.save(this, notes);
+
+            if (notesSaved) {
+                NotesService.broadcast(this);
+
+                Toast.makeText(this, "Notes saved 💪", Toast.LENGTH_SHORT).show()
+                this.finish()
+            } else {
+                Toast.makeText(this, "Can't save notes \uD83D\uDE15", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
